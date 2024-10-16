@@ -1,11 +1,4 @@
 import mongoose, { Document } from "mongoose"
-import { z } from "zod"
-
-const userValidationSchema = z.object({
-    name: z.string().min(1),
-    email: z.string().email().min(1),
-    password: z.string().min(1),
-})
 
 const schema = new mongoose.Schema<IUser>({
     name: {
@@ -31,7 +24,4 @@ interface IUser extends Document {
 
 const model = mongoose.models.users || mongoose.model<IUser>('user', schema)
 
-export default {
-    userValidationSchema,
-    model
-}
+export default model
