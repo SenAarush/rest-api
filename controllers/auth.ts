@@ -164,9 +164,10 @@ const updateUser = async (
     next: NextFunction
 ): Promise<Response> => {
 
-    const { name, email, updatedEmail, password } = req.body
+    const { name, email, password } = req.body
+    // Does not update email, to be noted
 
-    if (!name && !updatedEmail && !password) {
+    if (!name && !password) {
         return res.status(400).json({
             success: false,
             message: "No fields provided to update"
@@ -176,7 +177,7 @@ const updateUser = async (
     try {
 
         const userExists = await User.findOne({ email })
-        if(!userExists){
+        if (!userExists) {
             return res.status(404).json({
                 success: false,
                 message: "JWT not updated, logout and login"
@@ -186,7 +187,6 @@ const updateUser = async (
         let updateFields: any = {}
 
         if (name) updateFields.name = name
-        if (updatedEmail) updateFields.email = updatedEmail
         if (password) {
             const salt = await bcrypt.genSalt(10)
             updateFields.password = await bcrypt.hash(password, salt)
