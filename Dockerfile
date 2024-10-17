@@ -1,4 +1,5 @@
-FROM node:22.9
+# Build Stage
+FROM node:22.9 as BUILD
 
 WORKDIR /app
 
@@ -8,6 +9,17 @@ RUN npm ci
 
 COPY . .
 
-EXPOSE 5005
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+# Production Stage
+FROM node:22.9-alpine as PRODUCTION
+
+WORKDIR /app
+
+COPY package*.json .
+
+RUN npm ci --only=production
+
+COPY --from=BUILD /app/dist ./dist
+
+CMD ["node", "dist/index.js"]
