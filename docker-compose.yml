@@ -1,4 +1,4 @@
-name: docker-node-postgresql-api
+name: cv-rest-api
 services:
   api:
     build: .
@@ -10,12 +10,3 @@ services:
       - .env
     depends_on:
       - db
-  db:
-    image: mongo
-    restart: always
-    ports:
-      - 27017:27017
-    volumes:
-      - mongo-data:/data/db
-volumes:
-  mongo-data:   
