@@ -16,7 +16,7 @@ const schema = new mongoose.Schema<IUser>({
     },
 }, { timestamps: true })
 
-interface IUser extends Document {
+export interface IUser extends Document {
     name: string
     email: string
     password: string
